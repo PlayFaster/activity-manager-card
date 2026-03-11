@@ -183,7 +183,8 @@ class ActivityManagerCard extends LitElement {
         let val = `${year}-${month}-${day}T${hours}:${minutes}`;
 
         return html`
-            <ha-dialog class="manage-form" heading="Add Activity for ${this._config["category"]}">
+            <ha-dialog class="manage-form" heading="New Task">
+                <div class="dialog-title">Nouvelle Tâche</div>
                 <form>
                     <div class="am-add-form" >
                         <input
@@ -193,12 +194,12 @@ class ActivityManagerCard extends LitElement {
                             value="${this._config["category"]}" />
 
                         <div class="form-item">
-                            <ha-textfield type="text" id="name" placeholder="Name" style="grid-column: 1 / span 2">
+                            <ha-textfield type="text" id="name" placeholder="Nom" style="grid-column: 1 / span 2">
                             </ha-textfield>
                         </div>
                         
                         <div class="form-item">
-                            <label for="frequency-day">Frequency</label>
+                            <label for="frequency-day">Fréquence</label>
                             <div class="duration-input">
                                 <ha-textfield type="number" inputmode="numeric" no-spinner label="dd" id="frequency-day" value="0"></ha-textfield>
                                 <ha-textfield type="number" inputmode="numeric" no-spinner label="hh" id="frequency-hour" value="0"></ha-textfield>
@@ -208,25 +209,27 @@ class ActivityManagerCard extends LitElement {
                         </div>
 
                         <div class="form-item">
-                            <label for="icon">Icon</label>
+                            <label for="icon">Icône</label>
                             <ha-icon-picker type="text" id="icon">
                             </ha-icon-picker>
                         </div>
 
                         <div class="form-item">
-                            <label for="last-completed">Last Completed</label>
+                            <label for="last-completed">Dernière Complétion</label>
                             <ha-textfield type="datetime-local" id="last-completed" value=${val}>
                             </ha-textfield>
                         </div>
                     </div>
                     </ha-form>
                 </form>
-                <mwc-button slot="primaryAction" dialogAction="discard" @click=${this._addActivity}>
-                    Add
-                </mwc-button>
-                <mwc-button slot="secondaryAction" dialogAction="cancel">
-                    Cancel
-                </mwc-button>
+                <div class="dialog-actions">
+                    <ha-button @click=${this._addActivity}>
+                        Créer
+                    </ha-button>
+                    <ha-button @click=${() => this._closeDialog(this.shadowRoot.querySelector('.manage-form'))}>
+                        Annuler
+                    </ha-button>
+                </div>
             </ha-dialog>
         `;
     }
@@ -241,32 +244,12 @@ class ActivityManagerCard extends LitElement {
                     <div class="primary">${this._config.header}</div>
                 </div>
                 <div class="action-container">
-                    <mwc-icon-button
-                        @click=${() => {
-                            this.shadowRoot
-                                .querySelector(".manage-form")
-                                .show();
-                        }}
+                    <ha-icon-button
+                        title="Add task"
+                        @click=${() => this._showAddDialog()}
                     >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M14.3 21.7C13.6 21.9 12.8 22 12 22C6.5 22 2 17.5 2 12S6.5 2 12 2C13.3 2 14.6 2.3 15.8 2.7L14.2 4.3C13.5 4.1 12.8 4 12 4C7.6 4 4 7.6 4 12S7.6 20 12 20C12.4 20 12.9 20 13.3 19.9C13.5 20.6 13.9 21.2 14.3 21.7M7.9 10.1L6.5 11.5L11 16L21 6L19.6 4.6L11 13.2L7.9 10.1M18 14V17H15V19H18V22H20V19H23V17H20V14H18Z"
-                            />
-                        </svg>
-                    </mwc-icon-button>
-                    <mwc-icon-button @click=${this._switchMode}>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                d="M12,16A2,2 0 0,1 14,18A2,2 0 0,1 12,20A2,2 0 0,1 10,18A2,2 0 0,1 12,16M12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12A2,2 0 0,1 12,10M12,4A2,2 0 0,1 14,6A2,2 0 0,1 12,8A2,2 0 0,1 10,6A2,2 0 0,1 12,4Z"
-                            />
-                        </svg>
-                    </mwc-icon-button>
+                        <ha-icon icon="mdi:plus"></ha-icon>
+                    </ha-icon-button>
                 </div>
             </div>
         `;
@@ -282,31 +265,34 @@ class ActivityManagerCard extends LitElement {
         let val = `${year}-${month}-${day}T${hours}:${minutes}`;
 
         return html`
-            <ha-dialog class="confirm-update" heading="Confirm">
+            <ha-dialog
+                class="confirm-update"
+                heading="Confirm"
+                scrimClickAction="none"
+                escapeKeyAction="none"
+            >
                 <div class="confirm-grid">
                     <div>
-                        Yay, you did it! 🎉 If you completed this earlier, feel
-                        free to change the date and time below. Great job on
-                        completing your activity!
+                        Bravo, vous avez terminé ! 🎉 Si vous avez complété la tâche plus tôt, 
+                        n'hésitez pas à modifier la date et l'heure ci-dessous. 
+                        Bon travail !
                     </div>
                     <ha-textfield
                         type="datetime-local"
                         id="update-last-completed"
-                        label="Activity Last Completed"
+                        label="Dernière Complétion"
                         value=${val}
                     >
                     </ha-textfield>
                 </div>
-                <mwc-button
-                    slot="primaryAction"
-                    dialogAction="discard"
-                    @click=${this._updateActivity}
-                >
-                    Update
-                </mwc-button>
-                <mwc-button slot="secondaryAction" dialogAction="cancel">
-                    Cancel
-                </mwc-button>
+                <div class="dialog-actions">
+                    <ha-button @click=${this._updateActivity}>
+                        Enregistrer
+                    </ha-button>
+                    <ha-button @click=${() => this._closeDialog(this.shadowRoot.querySelector('.confirm-update'))}>
+                        Annuler
+                    </ha-button>
+                </div>
             </ha-dialog>
         `;
     }
@@ -318,16 +304,16 @@ class ActivityManagerCard extends LitElement {
                     Remove
                     ${this._currentItem ? this._currentItem["name"] : ""}?
                 </div>
-                <mwc-button
-                    slot="primaryAction"
-                    dialogAction="discard"
-                    @click=${this._removeActivity}
-                >
-                    Remove
-                </mwc-button>
-                <mwc-button slot="secondaryAction" dialogAction="cancel">
-                    Cancel
-                </mwc-button>
+                <div class="dialog-actions">
+                    <mwc-button @click=${this._removeActivity}>
+                        Remove
+                    </mwc-button>
+                    <mwc-button
+                        @click=${() => this._closeDialog(this.shadowRoot.querySelector('.confirm-remove'))}
+                    >
+                        Cancel
+                    </mwc-button>
+                </div>
             </ha-dialog>
         `;
     }
@@ -366,8 +352,8 @@ class ActivityManagerCard extends LitElement {
         name.value = "";
         icon.value = "";
 
-        let manageEl = this.shadowRoot.querySelector(".manage-form");
-        manageEl.close();
+        const dialog = this.shadowRoot.querySelector(".manage-form");
+        this._closeDialog(dialog);
     }
 
     _fetchData = async () => {
@@ -416,19 +402,56 @@ class ActivityManagerCard extends LitElement {
         this.requestUpdate();
     };
 
-    _showRemoveDialog(ev, item) {
+    _openDialog(dialog) {
+        if (!dialog) return;
+
+        if (typeof dialog.open === "boolean") {
+            // Ensure we reset the state before reopening to avoid getting stuck.
+            dialog.open = false;
+            setTimeout(() => {
+                dialog.open = true;
+            }, 0);
+            return;
+        }
+
+        if (typeof dialog.show === "function") {
+            dialog.show();
+        }
+    }
+
+    _closeDialog(dialog) {
+        if (!dialog) return;
+
+        if (typeof dialog.open === "boolean") {
+            dialog.open = false;
+            return;
+        }
+
+        if (typeof dialog.close === "function") {
+            dialog.close();
+        }
+    }
+
+    async _showRemoveDialog(ev, item) {
         ev.stopPropagation();
         this._currentItem = item;
-        this.requestUpdate();
-        this.shadowRoot.querySelector(".confirm-remove").show();
+        await this.updateComplete;
+
+        const dialog = this.shadowRoot.querySelector(".confirm-remove");
+        this._openDialog(dialog);
     }
 
-    _showUpdateDialog(item) {
+    async _showUpdateDialog(item) {
         this._currentItem = item;
-        this.requestUpdate();
-        this.shadowRoot.querySelector(".confirm-update").show();
-    }
+        await this.updateComplete;
 
+        const dialog = this.shadowRoot.querySelector(".confirm-update");
+        this._openDialog(dialog);
+    }
+    _showAddDialog() {
+        const dialog = this.shadowRoot.querySelector(".manage-form");
+        this._openDialog(dialog);
+    }
     _switchMode(ev) {
         switch (this._config.mode) {
             case "basic":
@@ -441,18 +464,25 @@ class ActivityManagerCard extends LitElement {
         this.requestUpdate();
     }
 
-    _updateActivity() {
+    async _updateActivity() {
         if (this._currentItem == null) return;
 
         let last_completed = this.shadowRoot.querySelector(
             "#update-last-completed"
         );
 
-        this._hass.callWS({
+        await this._hass.callWS({
             type: "activity_manager/update",
             item_id: this._currentItem["id"],
             last_completed: last_completed.value,
         });
+
+        // Refresh the list immediately so the user sees the change.
+        await this._fetchData();
+
+        const dialog = this.shadowRoot.querySelector(".confirm-update");
+        this._closeDialog(dialog);
+        this._currentItem = null;
     }
 
     _removeActivity() {
@@ -462,6 +492,10 @@ class ActivityManagerCard extends LitElement {
             type: "activity_manager/remove",
             item_id: this._currentItem["id"],
         });
+
+        const dialog = this.shadowRoot.querySelector(".confirm-remove");
+        this._closeDialog(dialog);
+        this._currentItem = null;
     }
 
     static styles = css`
@@ -522,7 +556,9 @@ class ActivityManagerCard extends LitElement {
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            gap: 8px;
         }
+
         .am-grid {
             display: grid;
             gap: 12px;
@@ -598,6 +634,12 @@ class ActivityManagerCard extends LitElement {
         .confirm-grid {
             display: grid;
             gap: 12px;
+        }
+
+        .dialog-title {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 12px;
         }
     `;
 }

@@ -183,8 +183,7 @@ class ActivityManagerCard extends LitElement {
         let val = `${year}-${month}-${day}T${hours}:${minutes}`;
 
         return html`
-            <ha-dialog class="manage-form" heading="New Task">
-                <div class="dialog-title">Nouvelle Tâche</div>
+            <ha-dialog class="manage-form">
                 <form>
                     <div class="am-add-form" >
                         <input
@@ -194,7 +193,7 @@ class ActivityManagerCard extends LitElement {
                             value="${this._config["category"]}" />
 
                         <div class="form-item">
-                            <ha-textfield type="text" id="name" placeholder="Nom" style="grid-column: 1 / span 2">
+                            <ha-textfield type="text" id="name" placeholder="Nouvelle tâche" style="grid-column: 1 / span 2">
                             </ha-textfield>
                         </div>
                         

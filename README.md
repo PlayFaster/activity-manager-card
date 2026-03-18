@@ -70,3 +70,6 @@ If you want to customize the card style, you can use [Lovlace Card Mod](https://
 
 -   Activities are stored in .activities_list.json in your `<config>` folder
 -   An entity is created for each activity (e.g. `activity_manager.<category>_<activity>`). The state of the activity is when the activity is due. You can use this entity to build notifications or your own custom cards.
+
+## Forked from @earion68 from @pathofleastresistor to address issues in Home Assistant 2026.3 
+

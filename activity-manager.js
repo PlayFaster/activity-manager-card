@@ -193,12 +193,12 @@ class ActivityManagerCard extends LitElement {
                             value="${this._config["category"]}" />
 
                         <div class="form-item">
-                            <ha-textfield type="text" id="name" placeholder="Nouvelle tâche" style="grid-column: 1 / span 2">
+                            <ha-textfield type="text" id="name" placeholder="New task" style="grid-column: 1 / span 2">
                             </ha-textfield>
                         </div>
                         
                         <div class="form-item">
-                            <label for="frequency-day">Fréquence</label>
+                            <label for="frequency-day">Frequency</label>
                             <div class="duration-input">
                                 <ha-textfield type="number" inputmode="numeric" no-spinner label="dd" id="frequency-day" value="0"></ha-textfield>
                                 <ha-textfield type="number" inputmode="numeric" no-spinner label="hh" id="frequency-hour" value="0"></ha-textfield>
@@ -208,13 +208,13 @@ class ActivityManagerCard extends LitElement {
                         </div>
 
                         <div class="form-item">
-                            <label for="icon">Icône</label>
+                            <label for="icon">Icon</label>
                             <ha-icon-picker type="text" id="icon">
                             </ha-icon-picker>
                         </div>
 
                         <div class="form-item">
-                            <label for="last-completed">Dernière Complétion</label>
+                            <label for="last-completed">Last Completed</label>
                             <ha-textfield type="datetime-local" id="last-completed" value=${val}>
                             </ha-textfield>
                         </div>
@@ -223,10 +223,10 @@ class ActivityManagerCard extends LitElement {
                 </form>
                 <div class="dialog-actions">
                     <ha-button @click=${this._addActivity}>
-                        Créer
+                        Create
                     </ha-button>
                     <ha-button @click=${() => this._closeDialog(this.shadowRoot.querySelector('.manage-form'))}>
-                        Annuler
+                        Cancel
                     </ha-button>
                 </div>
             </ha-dialog>
@@ -272,24 +272,24 @@ class ActivityManagerCard extends LitElement {
             >
                 <div class="confirm-grid">
                     <div>
-                        Bravo, vous avez terminé ! 🎉 Si vous avez complété la tâche plus tôt, 
-                        n'hésitez pas à modifier la date et l'heure ci-dessous. 
-                        Bon travail !
+                        Well done, you've finished! 🎉 If you completed the task earlier, 
+                        feel free to modify the date and time below. 
+                        Great job!
                     </div>
                     <ha-textfield
                         type="datetime-local"
                         id="update-last-completed"
-                        label="Dernière Complétion"
+                        label="Last Completed"
                         value=${val}
                     >
                     </ha-textfield>
                 </div>
                 <div class="dialog-actions">
                     <ha-button @click=${this._updateActivity}>
-                        Enregistrer
+                        Save
                     </ha-button>
                     <ha-button @click=${() => this._closeDialog(this.shadowRoot.querySelector('.confirm-update'))}>
-                        Annuler
+                        Cancel
                     </ha-button>
                 </div>
             </ha-dialog>
